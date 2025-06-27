@@ -1519,16 +1519,16 @@
                     this.openModal('themes', `<i class="fas fa-palette"></i> অ্যাপ থিম`);
                     break;
                 case 'about':
-                    alert('Caption Pro Ultra v2.1\nডেভেলপার: RL Rakib Hasan\nআপনার ডিজিটাল জীবনের সেরা সঙ্গী।\n(Updated: 26 June 2024 - with more content & fixes)\n\nকিছু ফিচার যেমন: "ছবি থেকে লেখা" এর জন্য ইন্টারনেট সংযোগের প্রয়োজন হতে পারে। বাকি ফিচারগুলো অফলাইনে কাজ করে।');
+                    alert('Bangla Caption\nডেভেলপার: RL Rakib Hasan\nআপনার ডিজিটাল জীবনের সেরা সঙ্গী।\n(Updated: 26 June 2024 - with more content & fixes)\n\nকিছু ফিচার যেমন: "ছবি থেকে লেখা" এর জন্য ইন্টারনেট সংযোগের প্রয়োজন হতে পারে। বাকি ফিচারগুলো অফলাইনে কাজ করে।');
                     break;
                 case 'privacy':
                     alert('এই অ্যাপ আপনার ব্যক্তিগত কোনো তথ্য সংগ্রহ করে না। সমস্ত ডেটা আপনার ডিভাইসেই (ব্রাউজারের লোকাল স্টোরেজ) থাকে। ইন্টারনেটের মাধ্যমে কোনো সার্ভারে ডেটা পাঠানো হয় না।');
                     break;
                 case 'share-app':
-                    const appLink = 'https://rakibhasan.me/caption-pro-ultra/'; // Placeholder link
+                    const appLink = 'https://rakibhasajfh.github.io/rl/'; // Placeholder link
                     // Kept title and link here as it's for sharing the app itself
                     if (navigator.share) {
-                        navigator.share({ title: 'Caption Pro Ultra', text: `সেরা ক্যাপশন ও টুলসের জন্য এই অ্যাপটি ব্যবহার করে দেখুন: Caption Pro Ultra - All in one toolkit for social media!`, url: appLink })
+                        navigator.share({ title: 'Bangla Caption', text: `সেরা ক্যাপশন ও টুলসের জন্য এই অ্যাপটি ব্যবহার করে দেখুন: Bangla Caption - All in one toolkit for social media!`, url: appLink })
                             .then(() => console.log('App share successful'))
                             .catch((error) => console.error('Error sharing app:', error));
                     } else {
@@ -1568,56 +1568,8 @@
                     break;
             }
         },
-        exportFavorites() {
-            const favoritesJson = JSON.stringify(this.state.favorites, null, 2);
-            const blob = new Blob([favoritesJson], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'caption_pro_ultra_favorites.json';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            this.showToast('পছন্দের তালিকা এক্সপোর্ট করা হয়েছে!');
-        },
-
-        importFavorites() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.json';
-            input.onchange = (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (event) => {
-                        try {
-                            const importedFavorites = JSON.parse(event.target.result);
-                            if (Array.isArray(importedFavorites)) {
-                                if (confirm('আপনি কি বিদ্যমান পছন্দের তালিকার সাথে নতুনগুলো যোগ করতে চান (Ok) নাকি বিদ্যমানগুলো মুছে নতুনগুলো দিয়ে প্রতিস্থাপন করতে চান (Cancel)?')) {
-                                    // Merge - filter out duplicates and trim for consistency
-                                    const merged = new Set([...this.state.favorites.map(f => f.trim()), ...importedFavorites.map(f => String(f).trim())]);
-                                    this.state.favorites = Array.from(merged).filter(item => item !== ""); // Filter out empty strings
-                                    this.showToast('পছন্দের তালিকা সফলভাবে যোগ করা হয়েছে।');
-                                } else {
-                                    // Replace - filter out empty strings and trim
-                                    this.state.favorites = importedFavorites.map(f => String(f).trim()).filter(item => item !== "");
-                                    this.showToast('পছন্দের তালিকা সফলভাবে প্রতিস্থাপন করা হয়েছে।');
-                                }
-                                this.saveState();
-                                this.renderFavorites();
-                            } else {
-                                this.showToast('ফাইলটি সঠিক JSON ফরম্যাটে নেই।', true);
-                            }
-                        } catch (error) {
-                            console.error('Error parsing imported favorites:', error);
-                            this.showToast('JSON ফাইলটি পড়তে বা পার্স করতে সমস্যা হয়েছে।', true);
-                        }
-                    };
-                    reader.readAsText(file);
-                }
-            };
-            input.click();
+      
+        
         },
         getToolHTML(id) {
             const templates = {
